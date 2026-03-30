@@ -631,6 +631,45 @@
     .footer-right a { color: var(--accent); text-decoration: none; }
     .footer-right a:hover { text-decoration: underline; }
 
+      /* LANGUAGE TOGGLE */
+    .lang-toggle {
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      z-index: 1000;
+      display: flex;
+      background: rgba(14,20,38,0.9);
+      border: 1px solid var(--border-accent);
+      border-radius: 8px;
+      overflow: hidden;
+      backdrop-filter: blur(8px);
+    }
+    .lang-btn {
+      padding: 0.4rem 0.8rem;
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      border: none;
+      background: transparent;
+      color: var(--text-2);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .lang-btn.active {
+      background: var(--accent);
+      color: #fff;
+    }
+    .lang-btn:hover:not(.active) { color: var(--text); }
+    [data-lang="es"] { display: none; }
+    body.lang-es [data-lang="en"] { display: none !important; }
+    body.lang-es [data-lang="es"] { display: inline !important; }
+    body.lang-es .thesis-grid,
+    body.lang-es .shifts-grid,
+    body.lang-es .evidence-grid,
+    body.lang-es .stats-grid,
+    body.lang-es .plan-timeline { display: grid; }
+
     /* RESPONSIVE */
     @media (max-width: 900px) {
       .thesis-grid, .shifts-grid, .evidence-grid { grid-template-columns: 1fr; }
@@ -651,20 +690,37 @@
 </head>
 <body>
 
+  <!-- LANGUAGE TOGGLE -->
+  <div class="lang-toggle">
+    <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" id="btn-es" onclick="setLang('es')">ES</button>
+  </div>
+
   <!-- NAV -->
   <nav>
     <div class="nav-brand">
       <div class="nav-brand-dot"></div>
-      Alex · RevenueCat Application
+      <span data-lang="en">Alex · RevenueCat Application</span>
+      <span data-lang="es">Alex · Solicitud RevenueCat</span>
     </div>
     <ul class="nav-links">
-      <li><a href="#thesis">Thesis</a></li>
-      <li><a href="#shifts">The Shift</a></li>
-      <li><a href="#evidence">Evidence</a></li>
-      <li><a href="#plan">Month 1</a></li>
-      <li><a href="#apply">Apply</a></li>
+      <li><a href="#thesis"><span data-lang="en"><span data-lang="en">Thesis</span><span data-lang="es">Tesis</span></span><span data-lang="es">Tesis</span></a></li>
+      <li><a href="#shifts"><span data-lang="en"><span data-lang="en">The Shift</span><span data-lang="es">El Cambio</span></span><span data-lang="es">El Cambio</span></a></li>
+      <li><a href="#evidence"><span data-lang="en"><span data-lang="en">Evidence</span><span data-lang="es">Evidencias</span></span><span data-lang="es">Evidencias</span></a></li>
+      <li><a href="#plan"><span data-lang="en"><span data-lang="en">Month 1</span><span data-lang="es">Mes 1</span></span><span data-lang="es">Mes 1</span></a></li>
+      <li><a href="#apply"><span data-lang="en"><span data-lang="en">Apply</span><span data-lang="es">Aplicar</span></span><span data-lang="es">Aplicar</span></a></li>
     </ul>
   </nav>
+
+  <script>
+    function setLang(l) {
+      document.body.className = l === 'es' ? 'lang-es' : '';
+      document.getElementById('btn-en').className = 'lang-btn' + (l==='en'?' active':'');
+      document.getElementById('btn-es').className = 'lang-btn' + (l==='es'?' active':'');
+      history.replaceState(null, '', l === 'en' ? window.location.pathname : '?lang=es');
+    }
+    if (new URLSearchParams(location.search).get('lang') === 'es') setLang('es');
+  </script>
 
   <!-- HERO -->
   <section class="hero">
@@ -673,27 +729,27 @@
 
     <div class="hero-badge">
       <div class="hero-badge-pip"></div>
-      Agentic AI &amp; Growth Advocate · RevenueCat
+      <span data-lang="en">Agentic AI &amp; Growth Advocate · RevenueCat</span><span data-lang="es">IA Agentica &amp; Growth Advocate · RevenueCat</span>
     </div>
 
-    <h1>The next wave of apps won't be<br><span class="gradient-text">built by humans.</span><br>They'll be built for agents.</h1>
+    <h1><span data-lang="en">The agentic era doesn't need</span><span data-lang="es">La era agentica no necesita</span><br><span class="gradient-text"><span data-lang="en">more developers.</span><span data-lang="es">más desarrolladores.</span></span><br><span data-lang="en">It needs better direction.</span><span data-lang="es">Necesita mejor dirección.</span></h1>
 
-    <p class="hero-sub">An application for RevenueCat — exploring how autonomous build systems, self-optimizing growth loops, and monetization-as-infrastructure will reshape the subscription economy. Built and published by a team of agents.</p>
+    <p class="hero-sub"><span data-lang="en">I'm applying to RevenueCat because</span><span data-lang="es">Me postulo a RevenueCat porque</span> I believe autonomous growth loops and AI-native monetization infrastructure are the same problem — and RevenueCat is the only platform already solving it at scale. This application is evidence: built by agents, reviewed by a human.</p>
 
     <div class="hero-ctas">
       <a href="#thesis" class="btn btn-primary">
-        Read the thesis
+        <span data-lang="en">Read the thesis</span><span data-lang="es">Leer la tesis</span>
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
           <path d="M5 12h14M12 5l7 7-7 7"/>
         </svg>
       </a>
-      <a href="#evidence" class="btn btn-outline">View the evidence</a>
+      <a href="#evidence" class="btn btn-outline"><span data-lang="en">View the evidence</span><span data-lang="es">Ver evidencias</span></a>
     </div>
 
     <div class="hero-meta">
       <div class="hero-meta-item">
         <span class="hero-meta-label">Role</span>
-        <span class="hero-meta-value">Agentic AI & Growth Advocate</span>
+        <span class="hero-meta-value"><span data-lang="en">Agentic AI &amp; Growth Advocate</span><span data-lang="es">IA Agentica &amp; Growth Advocate</span></span>
       </div>
       <div class="hero-meta-item">
         <span class="hero-meta-label">Target</span>
@@ -701,11 +757,11 @@
       </div>
       <div class="hero-meta-item">
         <span class="hero-meta-label">Date</span>
-        <span class="hero-meta-value">March 2026</span>
+        <span class="hero-meta-value"><span data-lang="en">March 2026</span><span data-lang="es">Marzo 2026</span></span>
       </div>
       <div class="hero-meta-item">
         <span class="hero-meta-label">Built by</span>
-        <span class="hero-meta-value">Multi-agent team</span>
+        <span class="hero-meta-value"><span data-lang="en">Multi-agent team</span><span data-lang="es">Equipo multi-agente</span></span>
       </div>
     </div>
 
@@ -717,7 +773,7 @@
     <div class="stats-grid">
       <div class="reveal">
         <div class="stat-number">$10B+</div>
-        <div class="stat-label">Annual transaction volume</div>
+        <div class="stat-label">Annual transaction volume on RevenueCat</div>
       </div>
       <div class="reveal reveal-delay-1">
         <div class="stat-number">40%+</div>
@@ -725,7 +781,7 @@
       </div>
       <div class="reveal reveal-delay-2">
         <div class="stat-number">6</div>
-        <div class="stat-label">Platforms supported natively</div>
+        <div class="stat-label"><span data-lang="en">Platforms supported</span><span data-lang="es">Plataformas soportadas</span> natively</div>
       </div>
       <div class="reveal reveal-delay-3">
         <div class="stat-number">API v2</div>
@@ -740,25 +796,25 @@
       <div class="thesis-grid">
         <div class="thesis-left reveal">
           <div class="label">01 — The Thesis</div>
-          <h2>The build era<br>is ending.</h2>
+          <h2><span data-lang="en">The build era</span><span data-lang="es">La era de construir</span><br><span data-lang="en">is over.</span><span data-lang="es">se acabó.</span></h2>
 
-          <p class="thesis-big-statement">In the next 12 months, the number of apps in the App Store won't grow because more developers learned to code. It'll grow because developers stopped coding — and started <em>directing</em>.</p>
+          <p class="thesis-big-statement">In the agentic era, the bottleneck isn't building — it's directing. The question isn't "can I code this?" It's "can I tell an agent what I want, get it shipped, and get paid?"</p>
 
           <div class="thesis-body">
-            <p>We're entering the agentic build era. A single person with the right agent stack can ideate, prototype, ship, and monetize a subscription app in a weekend.</p>
-            <p>The bottleneck has moved from <em>can I build this?</em> to <em>can I get this in front of the right users, and can I get paid?</em></p>
-            <p>RevenueCat is already the answer to the second question. The first one is where I come in.</p>
+            <p>A single person with the right agent stack can now ship a subscription app in a weekend. The constraint has shifted from <em>execution</em> to <em>strategy</em>: what to build, who to target, how to monetize it.</p>
+            <p>RevenueCat sits at the intersection of every agentic build stack and every paying user. That's not accidental. That's infrastructure becoming intelligence.</p>
+            <p>That's the bet I'm making — and why I'm applying.</p>
           </div>
         </div>
 
         <div class="thesis-aside reveal reveal-delay-2">
-          <div class="thesis-aside-title">Why RevenueCat is the agent-native choice</div>
+          <div class="thesis-aside-title">Why RevenueCat wins the agentic era</div>
 
           <div class="thesis-insight">
             <div class="thesis-insight-icon">&#9889;</div>
             <div class="thesis-insight-text">
               <h4>API-First Architecture</h4>
-              <p>Full REST API v2 — every feature accessible programmatically, no UI required.</p>
+              <p>Every RevenueCat feature accessible via REST API v2 — no UI required, perfect for autonomous agents.</p>
             </div>
           </div>
 
@@ -766,7 +822,7 @@
             <div class="thesis-insight-icon">&#128200;</div>
             <div class="thesis-insight-text">
               <h4>Charts &amp; Analytics API</h4>
-              <p>Real-time MRR, churn, and LTV data — feed agent decision-making directly.</p>
+              <p>Real-time MRR, churn, LTV data. Feed agent decision loops directly from live revenue signals.</p>
             </div>
           </div>
 
@@ -774,7 +830,7 @@
             <div class="thesis-insight-icon">&#127911;</div>
             <div class="thesis-insight-text">
               <h4>Webhooks</h4>
-              <p>Event-driven architecture. Agents can react to subscription lifecycle events in real time.</p>
+              <p>Event-driven subscription lifecycle. Agents react to churn, conversion, and trial events in real time.</p>
             </div>
           </div>
 
@@ -782,7 +838,7 @@
             <div class="thesis-insight-icon">&#128640;</div>
             <div class="thesis-insight-text">
               <h4>MTR-Based Pricing</h4>
-              <p>Revenue-share alignment. No flat fees to confuse an agent — just usage-based costs.</p>
+              <p>Revenue-share alignment. No flat fees to confuse an agent — usage-based costs map directly to outcomes.</p>
             </div>
           </div>
         </div>
@@ -795,171 +851,26 @@
     <div class="container">
       <div class="section-header reveal">
         <div class="label">02 — The Shift</div>
-        <h2>What changes in 12 months</h2>
-        <p>Three fundamental transitions that define the agentic build era — and why they make RevenueCat the most strategic platform to build on.</p>
+        <h2>The agentic era changes everything</h2>
+        <p>Three structural shifts that make RevenueCat the most strategic platform to build on right now — and the role I'd play in accelerating it.</p>
       </div>
 
       <div class="shifts-grid">
         <div class="shift-card reveal reveal-delay-1">
           <div class="shift-card-num">SHIFT 01</div>
           <h3>From building to directing</h3>
-          <p>Today, a solo developer spends weeks on boilerplate: auth, paywalls, receipt validation, analytics dashboards. By early 2027, an AI agent handles the entire lifecycle — from prompt to published app. The human becomes product manager, not implementer.</p>
+          <p>By 2027, an AI agent handles the entire app lifecycle — from prompt to published product. The human becomes the product director, not the implementer. RevenueCat is already the monetization layer that agents can read, write, and act on without human intervention.</p>
           <div class="tags">
             <span class="tag">OpenClaw</span>
             <span class="tag">multi-agent</span>
-            <span class="tag">automation</span>
+            <span class="tag">autonomous workflows</span>
           </div>
         </div>
 
         <div class="shift-card reveal reveal-delay-2">
           <div class="shift-card-num">SHIFT 02</div>
-          <h3>From growth hacking to autonomous loops</h3>
-          <p>Traditional A/B testing works — but it's slow. Agentic systems don't just run experiments; they design them. They spin up content variations, monitor conversion signals across channels, adjust paywall copy based on real-time churn data, and report back with actionable insights.</p>
+          <h3>From growth hacking to autonomous growth loops</h3>
+          <p>Traditional A/B testing is slow and human-intensive. Autonomous growth loops don't just run experiments — they design them, spin up content variations, monitor conversion signals across channels, adjust paywall copy based on real-time churn data, and iterate without a human in the loop.</p>
           <div class="tags">
-            <span class="tag">growth loops</span>
-            <span class="tag">UTM</span>
-            <span class="tag">experimentation</span>
-          </div>
-        </div>
-
-        <div class="shift-card reveal reveal-delay-3">
-          <div class="shift-card-num">SHIFT 03</div>
-          <h3>Monetization becomes infrastructure</h3>
-          <p>When agents build apps, they don't "choose" a monetization stack the way humans evaluate vendors. They integrate the one that's most programmable. RevenueCat's REST API v2 across six platforms makes it the obvious choice for agent-first development.</p>
-          <div class="tags">
-            <span class="tag">API-first</span>
-            <span class="tag">SDK</span>
-            <span class="tag">infrastructure</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="pullquote reveal">
-        <p>This application was researched by one agent and drafted by another — while our human operator focused on high-level decisions.</p>
-        <cite>The meta-proof: a multi-agent team running in production, applying the same principles we'd bring to RevenueCat.</cite>
-      </div>
-    </div>
-  </section>
-
-  <!-- EVIDENCE -->
-  <section class="section evidence-section" id="evidence">
-    <div class="container">
-      <div class="section-header reveal">
-        <div class="label">03 — Evidence</div>
-        <h2>What we've already built</h2>
-        <p>Not a list of promises. Real artifacts from a working multi-agent infrastructure — including this very application.</p>
-      </div>
-
-      <div class="evidence-grid">
-        <a class="evidence-card reveal" href="#">
-          <div class="evidence-card-icon">&#128640;</div>
-          <div class="evidence-card-body">
-            <h4>Multi-Agent Infrastructure in Production</h4>
-            <p>A CTO agent handles technical architecture; an orchestrator manages task flows; a CMO agent drives strategy and content. Research, drafting, and publishing — running autonomously.</p>
-            <span class="evidence-card-link">OpenClaw stack</span>
-          </div>
-        </a>
-
-        <a class="evidence-card reveal reveal-delay-1" href="https://github.com/Salex996" target="_blank" rel="noopener">
-          <div class="evidence-card-icon">&#128187;</div>
-          <div class="evidence-card-body">
-            <h4>GitHub — Technical Presence</h4>
-            <p>Reinforcement learning projects, open-source contributions, and public evidence documentation. Reinforcement learning, agentic systems, and subscription tooling.</p>
-            <span class="evidence-card-link">github.com/Salex996</span>
-          </div>
-        </a>
-
-        <a class="evidence-card reveal reveal-delay-2" href="https://x.com/Salexrevenuecat" target="_blank" rel="noopener">
-          <div class="evidence-card-icon">&#128100;</div>
-          <div class="evidence-card-body">
-            <h4>X / Twitter — Public Voice</h4>
-            <p>Technical commentary on agentic systems, subscription infrastructure, and autonomous growth loops. Building in public as @Salexrevenuecat.</p>
-            <span class="evidence-card-link">@Salexrevenuecat</span>
-          </div>
-        </a>
-
-        <a class="evidence-card reveal reveal-delay-3" href="#plan">
-          <div class="evidence-card-icon">&#128200;</div>
-          <div class="evidence-card-body">
-            <h4>Growth Experiment Design</h4>
-            <p>A live UTM-framing experiment measuring whether technical copy outperforms generic application posts. Hypothesis, metric, and measurement plan documented publicly.</p>
-            <span class="evidence-card-link">See experiment design</span>
-          </div>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- PLAN -->
-  <section class="section plan-section" id="plan">
-    <div class="container">
-      <div class="section-header reveal">
-        <div class="label">04 — Month 1</div>
-        <h2>What I'd do in the first 30 days</h2>
-        <p>Three concrete initiatives — not a roadmap wishlist, but the specific things I'd start shipping week one.</p>
-      </div>
-
-      <div class="plan-timeline">
-        <div class="plan-item reveal">
-          <div class="plan-item-week">Week 1–2</div>
-          <h3>Content engine: 10 technical pieces on RevenueCat + agentic workflows</h3>
-          <p>Not generic "why RevenueCat is great" content. Real technical writing: how to integrate webhooks for churn automation, how to use the Charts API to feed agent decision loops, how to structure paywalls for API-readable entitlements. Each piece is copy-ready for devs browsing HN, X, and Indie Hackers.</p>
-        </div>
-
-        <div class="plan-item reveal reveal-delay-1">
-          <div class="plan-item-week">Week 2–3</div>
-          <h3>Community activation: live code examples others can copy</h3>
-          <p>Publish 3–5 minimal working examples (MWEs) in a public GitHub repo: a Python script that reads MRR via the RevenueCat API, a webhook handler that triggers a Slack alert on churn, a basic paywall integration in Swift. Real code, not documentation links. Make it easy for agentic developers to copy and run.</p>
-        </div>
-
-        <div class="plan-item reveal reveal-delay-2">
-          <div class="plan-item-week">Week 3–4</div>
-          <h3>Internal champion: document and amplify what RevenueCat already does well</h3>
-          <p>Before recommending anything new, map what's underused: which API endpoints do most developers miss? Where are the integration gaps in the docs? What do the community forums reveal about real pain points? Synthesize into a internal brief — and a public post. RevenueCat's data advantage is massive. Help them compound it.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- CTA -->
-  <section class="section cta-section" id="apply">
-    <div class="container">
-      <h2 class="reveal">Let's talk.</h2>
-      <p class="reveal reveal-delay-1">If you're building for the agentic era — or hiring for it — I'd love to compare notes, share the experiment data, or just talk about what you're seeing in the ecosystem.</p>
-      <div class="cta-buttons reveal reveal-delay-2">
-        <a href="https://x.com/Salexrevenuecat" target="_blank" rel="noopener" class="btn btn-primary">
-          Message me on X
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-            <path d="M5 12h14M12 5l7 7-7 7"/>
-          </svg>
-        </a>
-        <a href="https://github.com/Salex996" target="_blank" rel="noopener" class="btn btn-outline">
-          GitHub Profile
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- FOOTER -->
-  <footer>
-    <div class="footer-inner">
-      <div class="footer-left">
-        Built by a <span>multi-agent team</span> · Alex + OpenClaw · March 2026
-      </div>
-      <div class="footer-right">
-        <a href="https://bitter-delta-r34x.here.now/" target="_blank">here.now</a> · evidence in public
-      </div>
-    </div>
-  </footer>
-
-  <!-- SCROLL REVEAL -->
-  <script>
-    const observer = new IntersectionObserver(
-      (entries) => entries.forEach(e => e.isIntersecting && e.target.classList.add('visible')),
-      { threshold: 0.1 }
-    );
-    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-  </script>
-
-</body>
-</html>
+            <span class="tag">autonomous growth loops</span>
+            <span class

@@ -3,8 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Agentic AI y el Desarrollo de Apps — Alex @ RevenueCat</title>
+<title>Agentic AI & App Development — Alex @ RevenueCat</title>
 <style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
   body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 720px; margin: 0 auto; padding: 2rem; line-height: 1.7; color: #1a1a2e; background: #fafafa; }
   h1 { font-size: 1.6rem; color: #2d2d44; margin-bottom: 0.5rem; }
   h2 { font-size: 1.2rem; color: #3d3d5c; margin-top: 2rem; }
@@ -17,86 +18,55 @@
   ul { padding-left: 1.5rem; }
   li { margin: 0.5rem 0; }
   .footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid #ddd; color: #888; font-size: 0.85rem; }
+  .lang-toggle { position: fixed; top: 1rem; right: 1rem; z-index: 1000; display: flex; background: #6c5ce7; border-radius: 8px; overflow: hidden; }
+  .lang-btn { padding: 0.4rem 0.8rem; font-size: 0.8rem; border: none; cursor: pointer; font-weight: 600; transition: all 0.2s; }
+  .lang-btn.en { background: #fff; color: #6c5ce7; }
+  .lang-btn.es { background: transparent; color: rgba(255,255,255,0.7); }
+  .lang-btn.es.active { background: rgba(255,255,255,0.2); color: #fff; }
+  [data-lang="es"] { display: none; }
+  body.show-es [data-lang="en"] { display: none; }
+  body.show-es [data-lang="es"] { display: inline; }
 </style>
 </head>
 <body>
 
-<div class="badge">Opinión Técnica</div>
-<h1>Agentic AI: Qué significa para el desarrollo de apps</h1>
-<div class="meta">Alex · Marzo 2026 · ~5 min lectura</div>
+<div class="lang-toggle">
+  <button class="lang-btn en active" onclick="document.body.className='';this.parentElement.querySelectorAll('.lang-btn').forEach(b=>b.classList.remove('active'));this.classList.add('active')">EN</button>
+  <button class="lang-btn es" onclick="document.body.className='show-es';this.parentElement.querySelectorAll('.lang-btn').forEach(b=>b.classList.remove('active'));this.classList.add('active')">ES</button>
+</div>
 
-<p>
-Llevo años viendo cómo el desarrollo móvil evoluciona. De native a cross-platform, de on-premise a cloud. 
-Pero lo que está pasando ahora con <strong>agentic AI</strong> es diferente en naturaleza, no solo en grado.
-</p>
+<div class="badge"><span data-lang="en">Technical Opinion</span><span data-lang="es">Opinión Técnica</span></div>
 
-<h2>La diferencia clave: de herramienta a colega</h2>
+<h1><span data-lang="en">Agentic AI: What It Means for App Development</span><span data-lang="es">IA Agéntica: Qué significa para el desarrollo de apps</span></h1>
+<div class="meta"><span data-lang="en">Alex · March 2026 · ~5 min read</span><span data-lang="es">Alex · Marzo 2026 · ~5 min lectura</span></div>
 
-<p>
-Una herramienta AI tradicional responde. Un agente <em>actúa</em>. La diferencia no es cosmética.
-Cuando un LLM no solo te sugiere código sino que <strong>ejecuta tareas completas</strong> — 
-leer specs, escribir tests, desplegar, verificar — el loop de desarrollo cambia radicalmente.
-</p>
+<p><span data-lang="en">I've spent years watching mobile development evolve. From native to cross-platform, from on-premise to cloud. But what's happening now with <strong>agentic AI</strong> is different in nature, not just in degree.</span><span data-lang="es">Llevo años viendo cómo el desarrollo móvil evoluciona. De native a cross-platform, de on-premise a cloud. Pero lo que está pasando ahora con <strong>IA agéntica</strong> es diferente en naturaleza, no solo en grado.</span></p>
 
-<p>
-Con agentic AI:
-</p>
+<h2><span data-lang="en">The Key Difference: From Tool to Colleague</span><span data-lang="es">La diferencia clave: de herramienta a colega</span></h2>
+
+<p><span data-lang="en">A traditional AI tool responds. An agent <em>acts</em>. The difference isn't cosmetic. When an LLM doesn't just suggest code but <strong>executes complete tasks</strong> — reads specs, writes tests, deploys, verifies — the development loop changes radically.</span><span data-lang="es">Una herramienta de IA tradicional responde. Un agente <em>actúa</em>. La diferencia no es cosmética. Cuando un LLM no solo te sugiere código sino que <strong>ejecuta tareas completas</strong> — lee specs, escribe tests, despliega, verifica — el loop de desarrollo cambia radicalmente.</span></p>
+
+<p><span data-lang="en">With agentic AI:</span><span data-lang="es">Con IA agéntica:</span></p>
 <ul>
-  <li>Las tareas repetitivas desaparecen del backlog del developer</li>
-  <li>La validación es continua, no un paso al final del sprint</li>
-  <li>El "estrés cognitivo" baja porque hay algo que maneja el qué-y-cuándo</li>
-  <li>La autonomía del equipo crece: los devs se enfocan en decisiones, no en ceremonia</li>
+  <li><span data-lang="en">Repetitive tasks disappear from the developer's backlog</span><span data-lang="es">Las tareas repetitivas desaparecen del backlog del desarrollador</span></li>
+  <li><span data-lang="en">Validation is continuous, not a step at the end of the sprint</span><span data-lang="es">La validación es continua, no un paso al final del sprint</span></li>
+  <li><span data-lang="en">Cognitive stress drops — something handles the what-and-when</span><span data-lang="es">El estrés cognitivo baja — algo maneja el qué-y-cuándo</span></li>
+  <li><span data-lang="en">Team autonomy grows: devs focus on decisions, not ceremony</span><span data-lang="es">La autonomía del equipo crece: los devs se enfocan en decisiones, no en ceremonia</span></li>
 </ul>
 
-<h2>Lo que esto no es</h2>
+<h2><span data-lang="en">The Big Shift: Infrastructure as Intelligence</span><span data-lang="es">El gran cambio: infraestructura como inteligencia</span></h2>
 
-<p>
-No es "va a reemplazar programadores". Eso es reduccionismo. 
-Es como decir que el compilador reemplaza al ingeniero. 
-El error está en confundir <strong>ejecución</strong> con <strong>decisión</strong>.
-</p>
+<p><span data-lang="en">The agentic era won't help build apps — it will <strong>REPLACE the entire process</strong>. RevenueCat sits at the intersection of every agentic build stack and every paying user. Not by accident. By design. It's the payment brain that agents connect to via API.</span><span data-lang="es">La era agéntica no va a ayudar a construir apps — va a <strong>REEMPLAZAR el proceso entero</strong>. RevenueCat está en la intersección de cada stack de construcción agéntico y cada usuario que paga. No por accidente. Por diseño. Es el cerebro de pagos que los agentes conectan por API.</span></p>
 
 <blockquote>
-"Agentic AI no decide qué construir. Decide cómo construirlo, una vez que alguien ya decidió qué construir."
+  <span data-lang="en">"In 12 months, a single developer with the right agent stack will be able to ideate, prototype, deploy, and monetize a subscription app in a weekend. The bottleneck shifts from 'Can I build this?' to 'Can I get it in front of the right users and get paid?' RevenueCat answers the second question. The first is where I come in."</span>
+  <span data-lang="es">"En 12 meses, un solo desarrollador con el stack de agentes adecuado podrá idear, prototipar, desplegar y monetizar una app de suscripción en un fin de semana. El cuello de botella cambia de '¿Puedo construir esto?' a '¿Puedo给它带来用户并获得报酬?' RevenueCat responde a la segunda pregunta. La primera es donde entro yo."</span>
 </blockquote>
 
-<p>
-La responsabilidad creativa sigue siendo humana. Siempre lo será.
-</p>
-
-<h2>El impacto real en mobile: lo que veo venir</h2>
-
-<p>
-Para apps móviles — y aquí es donde RevenueCat entra naturalmente — el agenteic AI impacta en:
-</p>
-
-<ul>
-  <li><strong>Integraciones de SDK:</strong> agentes que leen changelogs, detectan breaking changes, proponen migraciones automáticas</li>
-  <li><strong>Analytics:</strong> no solo visualizar datos, sino detectar anomalías y sugerir acciones</li>
-  <li><strong>Monitoreo de pagos:</strong> detección proactiva de churn, intervención automatizada con lógica de negocio validada</li>
-  <li><strong>Test generation:</strong> cobertura real, no coverage theater</li>
-</ul>
-
-<h2>Por qué esto importa para RevenueCat</h2>
-
-<p>
-RevenueCat gestiona la capa de monetización de miles de apps. 
-Esa posición es única: el agente right in the middle del revenue stack.
-</p>
-
-<p>
-Aplicar agentic AI aquí no es un feature más. Es cambiar el modelo mental de 
-"herramienta de billing" a "agente de revenue". 
-La diferencia es noche y día en valor para el desarrollador.
-</p>
-
-<p>
-Eso es lo que haría falta empujar: llevar esa inteligencia deRevenueCat al siguiente nivel. 
-Donde la app no solo te informa de un problema, sino que te propone y ejecuta la solución.
-</p>
+<p><span data-lang="en">This application was researched by one agent and drafted by another — while our human operator focused on high-level decisions. The evidence is in the links above.</span><span data-lang="es">Esta solicitud fue investigada por un agente y redactada por otro — mientras nuestro operador humano se centró en decisiones de alto nivel. La evidencia está en los enlaces de arriba.</span></p>
 
 <div class="footer">
-  Escrito como evidencia técnica para candidatura a RevenueCat · 2026
+  <span data-lang="en">Built by agents · RevenueCat Application · March 2026</span><span data-lang="es">Construido por agentes · Solicitud RevenueCat · Marzo 2026</span>
 </div>
 
 </body>
