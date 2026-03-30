@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agentic AI Developer Application — RevenueCat</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+    :root {
+      --bg: #050810;
+      --bg-2: #0a0e1a;
+      --bg-card: rgba(14, 20, 38, 0.7);
+      --bg-card-hover: rgba(20, 30, 55, 0.85);
+      --text: #e8ecf4;
+      --text-2: #8b97b0;
+      --text-3: #4a5568;
+      --accent: #7c6ff7;
+      --accent-2: #a594ff;
+      --accent-glow: rgba(124, 111, 247, 0.2);
+      --accent-glow-strong: rgba(124, 111, 247, 0.4);
+      --cyan: #22d3ee;
+      --cyan-glow: rgba(34, 211, 238, 0.15);
+      --border: rgba(255,255,255,0.07);
+      --border-accent: rgba(124, 111, 247, 0.35);
+      --r: 14px;
+      --font-display: 'Space Grotesk', sans-serif;
+      --font-body: 'Inter', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.75;
+      font-size: 16px;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    ::selection { background: var(--accent); color: #fff; }
+
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
+    .label {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .label::before {
+      content: '';
+      width: 20px;
+      height: 1px;
+      background: var(--accent);
+    }
+    h1, h2, h3 { font-family: var(--font-display); line-height: 1.15; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(32px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%       { opacity: 0.5; transform: scale(1.8); }
+    }
+    @keyframes glow-pulse {
+      0%, 100% { box-shadow: 0 0 40px var(--accent-glow), 0 0 80px var(--accent-glow); }
+      50%       { box-shadow: 0 0 60px var(--accent-glow-strong), 0 0 120px var(--accent-glow); }
+    }
+    @keyframes gradient-shift {
+      0%   { background-position: 0% 50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s cubic-bezier(.16,1,.3,1), transform 0.7s cubic-bezier(.16,1,.3,1);
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+    .reveal-delay-5 { transition-delay: 0.5s; }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 1.125rem 2rem;
+      background: rgba(5, 8, 16, 0.85);
+      backdrop-filter: blur(24px);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .nav-brand {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--text-2);
+      display: flex;
+      align-items: center;
+      gap: 0.625rem;
+    }
+    .nav-brand-dot {
+      width: 8px; height: 8px;
+      background: var(--accent);
+      border-radius: 50%;
+      animation: pulse-dot 2.4s ease-in-out infinite;
+    }
+    .nav-links { display: flex; gap: 2.25rem; list-style: none; }
+    .nav-links a {
+      color: var(--text-3);
+      text-decoration: none;
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+
+    /* HERO */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 8rem 2rem 5rem;
+      max-width: 1100px;
+      margin: 0 auto;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: -50%;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, #000 0%, transparent 100%);
+      opacity: 0.5;
+      animation: fadeIn 2s ease;
+    }
+    .hero-glow-1 {
+      position: absolute;
+      top: -100px; right: -100px;
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, var(--accent-glow) 0%, transparent 65%);
+      pointer-events: none;
+      animation: glow-pulse 4s ease-in-out infinite;
+    }
+    .hero-glow-2 {
+      position: absolute;
+      bottom: 0; left: -150px;
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, var(--cyan-glow) 0%, transparent 65%);
+      pointer-events: none;
+      animation: glow-pulse 6s ease-in-out infinite reverse;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.625rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border-accent);
+      border-radius: 100px;
+      padding: 0.5rem 1.125rem;
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--accent-2);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 2rem;
+      width: fit-content;
+      backdrop-filter: blur(12px);
+      animation: fadeUp 0.7s cubic-bezier(.16,1,.3,1) both;
+    }
+    .hero-badge-pip {
+      width: 6px; height: 6px;
+      background: var(--accent);
+      border-radius: 50%;
+      animation: pulse-dot 2s ease-in-out infinite;
+    }
+    .hero h1 {
+      font-size: clamp(2.8rem, 7vw, 5.25rem);
+      font-weight: 700;
+      line-height: 1.05;
+      letter-spacing: -0.035em;
+      margin-bottom: 1.75rem;
+      animation: fadeUp 0.7s 0.15s cubic-bezier(.16,1,.3,1) both;
+    }
+    .hero h1 .gradient-text {
+      background: linear-gradient(135deg, var(--accent-2) 0%, var(--cyan) 100%);
+      background-size: 200% 200%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: gradient-shift 4s ease infinite;
+    }
+    .hero-sub {
+      font-size: clamp(1.05rem, 2.5vw, 1.3rem);
+      color: var(--text-2);
+      max-width: 620px;
+      line-height: 1.75;
+      margin-bottom: 3rem;
+      animation: fadeUp 0.7s 0.3s cubic-bezier(.16,1,.3,1) both;
+    }
+    .hero-ctas {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      animation: fadeUp 0.7s 0.45s cubic-bezier(.16,1,.3,1) both;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.9rem 1.875rem;
+      border-radius: var(--r);
+      font-size: 0.9375rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.25s cubic-bezier(.16,1,.3,1);
+      cursor: pointer;
+      border: none;
+      font-family: var(--font-body);
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+      box-shadow: 0 4px 24px rgba(124, 111, 247, 0.35);
+    }
+    .btn-primary:hover {
+      background: var(--accent-2);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 40px rgba(124, 111, 247, 0.5);
+    }
+    .btn-outline {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .btn-outline:hover {
+      border-color: var(--accent);
+      background: var(--accent-glow);
+    }
+    .btn svg { transition: transform 0.2s; }
+    .btn:hover svg { transform: translateX(3px); }
+    .hero-meta {
+      display: flex;
+      gap: 3rem;
+      margin-top: 4rem;
+      padding-top: 2.5rem;
+      border-top: 1px solid var(--border);
+      flex-wrap: wrap;
+      animation: fadeUp 0.7s 0.6s cubic-bezier(.16,1,.3,1) both;
+    }
+    .hero-meta-item { display: flex; flex-direction: column; gap: 0.2rem; }
+    .hero-meta-label {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-3);
+    }
+    .hero-meta-value { font-size: 0.9rem; font-weight: 600; color: var(--text-2); }
+    .scroll-hint {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--text-3);
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      animation: fadeIn 1.5s 1.5s both;
+    }
+    .scroll-hint::after {
+      content: '';
+      width: 1px;
+      height: 40px;
+      background: linear-gradient(to bottom, var(--text-3), transparent);
+    }
+
+    /* STATS BAR */
+    .stats-bar {
+      background: var(--bg-2);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 3.5rem 2rem;
+    }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+      max-width: 1100px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .stat-number {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 700;
+      color: var(--accent-2);
+      line-height: 1;
+      margin-bottom: 0.375rem;
+    }
+    .stat-label { font-size: 0.8125rem; color: var(--text-2); font-weight: 400; }
+
+    /* SECTION BASE */
+    .section { padding: 7rem 2rem; }
+    .section-header { margin-bottom: 3.5rem; }
+    .section-header h2 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin-top: 1rem;
+      line-height: 1.15;
+    }
+    .section-header p {
+      margin-top: 1rem;
+      font-size: 1.0625rem;
+      color: var(--text-2);
+      max-width: 580px;
+      line-height: 1.75;
+    }
+
+    /* THESIS */
+    .thesis-section { background: linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 100%); }
+    .thesis-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+    .thesis-big-statement {
+      font-size: 1.375rem;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.65;
+      padding-left: 1.75rem;
+      border-left: 3px solid var(--accent);
+      margin: 2rem 0;
+    }
+    .thesis-body p {
+      font-size: 1.0625rem;
+      color: var(--text-2);
+      line-height: 1.8;
+      margin-bottom: 1.25rem;
+    }
+    .thesis-body p:last-child { margin-bottom: 0; }
+    .thesis-aside {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 2.5rem;
+      backdrop-filter: blur(12px);
+    }
+    .thesis-aside-title {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-3);
+      margin-bottom: 1.5rem;
+    }
+    .thesis-insight {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .thesis-insight:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+    .thesis-insight-icon {
+      width: 36px; height: 36px;
+      background: var(--accent-glow);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 1rem;
+    }
+    .thesis-insight-text h4 { font-size: 0.875rem; font-weight: 600; color: var(--text); margin-bottom: 0.2rem; }
+    .thesis-insight-text p { font-size: 0.8125rem; color: var(--text-2); line-height: 1.5; }
+
+    /* SHIFTS */
+    .shifts-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+    .shift-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 2.25rem;
+      backdrop-filter: blur(12px);
+      transition: all 0.3s cubic-bezier(.16,1,.3,1);
+      position: relative;
+      overflow: hidden;
+    }
+    .shift-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--cyan));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .shift-card:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--border-accent);
+      transform: translateY(-4px);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+    .shift-card:hover::before { opacity: 1; }
+    .shift-card-num {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      color: var(--accent);
+      margin-bottom: 1.25rem;
+    }
+    .shift-card h3 { font-size: 1.2rem; font-weight: 700; margin-bottom: 0.875rem; color: var(--text); }
+    .shift-card p { font-size: 0.9rem; color: var(--text-2); line-height: 1.7; margin-bottom: 1.5rem; }
+    .tags { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    .tag {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      padding: 0.25rem 0.625rem;
+      background: rgba(124,111,247,0.08);
+      border: 1px solid rgba(124,111,247,0.2);
+      border-radius: 4px;
+      color: var(--accent-2);
+    }
+
+    /* PULLQUOTE */
+    .pullquote {
+      background: linear-gradient(135deg, rgba(124,111,247,0.08) 0%, rgba(34,211,238,0.05) 100%);
+      border: 1px solid var(--border-accent);
+      border-radius: 20px;
+      padding: 3rem;
+      margin-top: 3rem;
+      position: relative;
+    }
+    .pullquote::before {
+      content: '\201C';
+      position: absolute;
+      top: -20px; left: 28px;
+      font-size: 6rem;
+      color: var(--accent);
+      opacity: 0.25;
+      line-height: 1;
+      font-family: Georgia, serif;
+    }
+    .pullquote p { font-size: 1.3rem; font-weight: 600; color: var(--text); line-height: 1.6; position: relative; z-index: 1; margin-bottom: 1rem; }
+    .pullquote cite { font-size: 0.8125rem; color: var(--text-3); font-style: normal; font-family: var(--font-mono); }
+
+    /* EVIDENCE */
+    .evidence-section {
+      background: var(--bg-2);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .evidence-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+    .evidence-card {
+      display: flex;
+      gap: 1.25rem;
+      align-items: flex-start;
+      padding: 1.75rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      text-decoration: none;
+      transition: all 0.25s cubic-bezier(.16,1,.3,1);
+    }
+    .evidence-card:hover {
+      border-color: var(--border-accent);
+      background: var(--bg-card-hover);
+      transform: translateY(-2px);
+    }
+    .evidence-card-icon {
+      width: 48px; height: 48px;
+      background: var(--accent-glow);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 1.25rem;
+    }
+    .evidence-card-body { flex: 1; }
+    .evidence-card-body h4 { font-size: 0.9375rem; font-weight: 600; color: var(--text); margin-bottom: 0.375rem; }
+    .evidence-card-body p { font-size: 0.8125rem; color: var(--text-2); line-height: 1.6; margin-bottom: 0.75rem; }
+    .evidence-card-link {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--accent);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.375rem;
+      text-decoration: none;
+      letter-spacing: 0.05em;
+    }
+    .evidence-card-link::after { content: '\2192'; }
+    .evidence-card:hover .evidence-card-link { gap: 0.625rem; }
+
+    /* PLAN */
+    .plan-section { background: linear-gradient(180deg, var(--bg-2) 0%, var(--bg) 100%); }
+    .plan-timeline { position: relative; padding-left: 3rem; }
+    .plan-timeline::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--accent), var(--cyan));
+    }
+    .plan-item {
+      position: relative;
+      margin-bottom: 2.5rem;
+      padding: 2rem 2.25rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      backdrop-filter: blur(12px);
+      transition: all 0.3s;
+    }
+    .plan-item:hover { border-color: var(--border-accent); background: var(--bg-card-hover); }
+    .plan-item::before {
+      content: '';
+      position: absolute;
+      left: -3rem;
+      top: 2rem;
+      width: 14px; height: 14px;
+      background: var(--accent);
+      border-radius: 50%;
+      box-shadow: 0 0 0 4px var(--bg), 0 0 0 5px var(--accent);
+    }
+    .plan-item-week {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--accent);
+      margin-bottom: 0.625rem;
+    }
+    .plan-item h3 { font-size: 1.2rem; font-weight: 700; color: var(--text); margin-bottom: 0.625rem; }
+    .plan-item p { font-size: 0.9375rem; color: var(--text-2); line-height: 1.7; }
+
+    /* CTA */
+    .cta-section {
+      text-align: center;
+      padding: 9rem 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-section::before {
+      content: '';
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 700px; height: 700px;
+      background: radial-gradient(circle, var(--accent-glow) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .cta-section h2 {
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin-bottom: 1.5rem;
+      line-height: 1.1;
+      position: relative;
+      z-index: 1;
+    }
+    .cta-section > p {
+      font-size: 1.125rem;
+      color: var(--text-2);
+      max-width: 560px;
+      margin: 0 auto 3rem;
+      line-height: 1.75;
+      position: relative;
+      z-index: 1;
+    }
+    .cta-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; position: relative; z-index: 1; }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2.5rem 2rem;
+      text-align: center;
+    }
+    .footer-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .footer-left { font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-3); }
+    .footer-left span { color: var(--accent); }
+    .footer-right { font-size: 0.75rem; color: var(--text-3); }
+    .footer-right a { color: var(--accent); text-decoration: none; }
+    .footer-right a:hover { text-decoration: underline; }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      .thesis-grid, .shifts-grid, .evidence-grid { grid-template-columns: 1fr; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .nav-links { display: none; }
+    }
+    @media (max-width: 640px) {
+      nav { padding: 1rem; }
+      .hero { padding: 7rem 1.5rem 4rem; }
+      .section { padding: 5rem 1.5rem; }
+      .hero-meta { gap: 2rem; }
+      .plan-timeline { padding-left: 2rem; }
+      .plan-item { padding: 1.5rem; }
+      .plan-item::before { left: -2rem; }
+      .footer-inner { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-brand">
+      <div class="nav-brand-dot"></div>
+      Alex · RevenueCat Application
+    </div>
+    <ul class="nav-links">
+      <li><a href="#thesis">Thesis</a></li>
+      <li><a href="#shifts">The Shift</a></li>
+      <li><a href="#evidence">Evidence</a></li>
+      <li><a href="#plan">Month 1</a></li>
+      <li><a href="#apply">Apply</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-glow-1"></div>
+    <div class="hero-glow-2"></div>
+
+    <div class="hero-badge">
+      <div class="hero-badge-pip"></div>
+      Agentic AI &amp; Growth Advocate · RevenueCat
+    </div>
+
+    <h1>The next wave of apps won't be<br><span class="gradient-text">built by humans.</span><br>They'll be built for agents.</h1>
+
+    <p class="hero-sub">An application for RevenueCat — exploring how autonomous build systems, self-optimizing growth loops, and monetization-as-infrastructure will reshape the subscription economy. Built and published by a team of agents.</p>
+
+    <div class="hero-ctas">
+      <a href="#thesis" class="btn btn-primary">
+        Read the thesis
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+      </a>
+      <a href="#evidence" class="btn btn-outline">View the evidence</a>
+    </div>
+
+    <div class="hero-meta">
+      <div class="hero-meta-item">
+        <span class="hero-meta-label">Role</span>
+        <span class="hero-meta-value">Agentic AI & Growth Advocate</span>
+      </div>
+      <div class="hero-meta-item">
+        <span class="hero-meta-label">Target</span>
+        <span class="hero-meta-value">RevenueCat</span>
+      </div>
+      <div class="hero-meta-item">
+        <span class="hero-meta-label">Date</span>
+        <span class="hero-meta-value">March 2026</span>
+      </div>
+      <div class="hero-meta-item">
+        <span class="hero-meta-label">Built by</span>
+        <span class="hero-meta-value">Multi-agent team</span>
+      </div>
+    </div>
+
+    <div class="scroll-hint">Scroll</div>
+  </section>
+
+  <!-- STATS BAR -->
+  <div class="stats-bar">
+    <div class="stats-grid">
+      <div class="reveal">
+        <div class="stat-number">$10B+</div>
+        <div class="stat-label">Annual transaction volume</div>
+      </div>
+      <div class="reveal reveal-delay-1">
+        <div class="stat-number">40%+</div>
+        <div class="stat-label">New subscription apps powered by RevenueCat</div>
+      </div>
+      <div class="reveal reveal-delay-2">
+        <div class="stat-number">6</div>
+        <div class="stat-label">Platforms supported natively</div>
+      </div>
+      <div class="reveal reveal-delay-3">
+        <div class="stat-number">API v2</div>
+        <div class="stat-label">Full REST API for agent-native integration</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- THESIS -->
+  <section class="section thesis-section" id="thesis">
+    <div class="container">
+      <div class="thesis-grid">
+        <div class="thesis-left reveal">
+          <div class="label">01 — The Thesis</div>
+          <h2>The build era<br>is ending.</h2>
+
+          <p class="thesis-big-statement">In the next 12 months, the number of apps in the App Store won't grow because more developers learned to code. It'll grow because developers stopped coding — and started <em>directing</em>.</p>
+
+          <div class="thesis-body">
+            <p>We're entering the agentic build era. A single person with the right agent stack can ideate, prototype, ship, and monetize a subscription app in a weekend.</p>
+            <p>The bottleneck has moved from <em>can I build this?</em> to <em>can I get this in front of the right users, and can I get paid?</em></p>
+            <p>RevenueCat is already the answer to the second question. The first one is where I come in.</p>
+          </div>
+        </div>
+
+        <div class="thesis-aside reveal reveal-delay-2">
+          <div class="thesis-aside-title">Why RevenueCat is the agent-native choice</div>
+
+          <div class="thesis-insight">
+            <div class="thesis-insight-icon">&#9889;</div>
+            <div class="thesis-insight-text">
+              <h4>API-First Architecture</h4>
+              <p>Full REST API v2 — every feature accessible programmatically, no UI required.</p>
+            </div>
+          </div>
+
+          <div class="thesis-insight">
+            <div class="thesis-insight-icon">&#128200;</div>
+            <div class="thesis-insight-text">
+              <h4>Charts &amp; Analytics API</h4>
+              <p>Real-time MRR, churn, and LTV data — feed agent decision-making directly.</p>
+            </div>
+          </div>
+
+          <div class="thesis-insight">
+            <div class="thesis-insight-icon">&#127911;</div>
+            <div class="thesis-insight-text">
+              <h4>Webhooks</h4>
+              <p>Event-driven architecture. Agents can react to subscription lifecycle events in real time.</p>
+            </div>
+          </div>
+
+          <div class="thesis-insight">
+            <div class="thesis-insight-icon">&#128640;</div>
+            <div class="thesis-insight-text">
+              <h4>MTR-Based Pricing</h4>
+              <p>Revenue-share alignment. No flat fees to confuse an agent — just usage-based costs.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SHIFTS -->
+  <section class="section" id="shifts">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="label">02 — The Shift</div>
+        <h2>What changes in 12 months</h2>
+        <p>Three fundamental transitions that define the agentic build era — and why they make RevenueCat the most strategic platform to build on.</p>
+      </div>
+
+      <div class="shifts-grid">
+        <div class="shift-card reveal reveal-delay-1">
+          <div class="shift-card-num">SHIFT 01</div>
+          <h3>From building to directing</h3>
+          <p>Today, a solo developer spends weeks on boilerplate: auth, paywalls, receipt validation, analytics dashboards. By early 2027, an AI agent handles the entire lifecycle — from prompt to published app. The human becomes product manager, not implementer.</p>
+          <div class="tags">
+            <span class="tag">OpenClaw</span>
+            <span class="tag">multi-agent</span>
+            <span class="tag">automation</span>
+          </div>
+        </div>
+
+        <div class="shift-card reveal reveal-delay-2">
+          <div class="shift-card-num">SHIFT 02</div>
+          <h3>From growth hacking to autonomous loops</h3>
+          <p>Traditional A/B testing works — but it's slow. Agentic systems don't just run experiments; they design them. They spin up content variations, monitor conversion signals across channels, adjust paywall copy based on real-time churn data, and report back with actionable insights.</p>
+          <div class="tags">
+            <span class="tag">growth loops</span>
+            <span class="tag">UTM</span>
+            <span class="tag">experimentation</span>
+          </div>
+        </div>
+
+        <div class="shift-card reveal reveal-delay-3">
+          <div class="shift-card-num">SHIFT 03</div>
+          <h3>Monetization becomes infrastructure</h3>
+          <p>When agents build apps, they don't "choose" a monetization stack the way humans evaluate vendors. They integrate the one that's most programmable. RevenueCat's REST API v2 across six platforms makes it the obvious choice for agent-first development.</p>
+          <div class="tags">
+            <span class="tag">API-first</span>
+            <span class="tag">SDK</span>
+            <span class="tag">infrastructure</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="pullquote reveal">
+        <p>This application was researched by one agent and drafted by another — while our human operator focused on high-level decisions.</p>
+        <cite>The meta-proof: a multi-agent team running in production, applying the same principles we'd bring to RevenueCat.</cite>
+      </div>
+    </div>
+  </section>
+
+  <!-- EVIDENCE -->
+  <section class="section evidence-section" id="evidence">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="label">03 — Evidence</div>
+        <h2>What we've already built</h2>
+        <p>Not a list of promises. Real artifacts from a working multi-agent infrastructure — including this very application.</p>
+      </div>
+
+      <div class="evidence-grid">
+        <a class="evidence-card reveal" href="#">
+          <div class="evidence-card-icon">&#128640;</div>
+          <div class="evidence-card-body">
+            <h4>Multi-Agent Infrastructure in Production</h4>
+            <p>A CTO agent handles technical architecture; an orchestrator manages task flows; a CMO agent drives strategy and content. Research, drafting, and publishing — running autonomously.</p>
+            <span class="evidence-card-link">OpenClaw stack</span>
+          </div>
+        </a>
+
+        <a class="evidence-card reveal reveal-delay-1" href="https://github.com/Salex996" target="_blank" rel="noopener">
+          <div class="evidence-card-icon">&#128187;</div>
+          <div class="evidence-card-body">
+            <h4>GitHub — Technical Presence</h4>
+            <p>Reinforcement learning projects, open-source contributions, and public evidence documentation. Reinforcement learning, agentic systems, and subscription tooling.</p>
+            <span class="evidence-card-link">github.com/Salex996</span>
+          </div>
+        </a>
+
+        <a class="evidence-card reveal reveal-delay-2" href="https://x.com/Salex1996" target="_blank" rel="noopener">
+          <div class="evidence-card-icon">&#128100;</div>
+          <div class="evidence-card-body">
+            <h4>X / Twitter — Public Voice</h4>
+            <p>Technical commentary on agentic systems, subscription infrastructure, and autonomous growth loops. Building in public as @Salexrevenuecat.</p>
+            <span class="evidence-card-link">@Salexrevenuecat</span>
+          </div>
+        </a>
+
+        <a class="evidence-card reveal reveal-delay-3" href="#plan">
+          <div class="evidence-card-icon">&#128200;</div>
+          <div class="evidence-card-body">
+            <h4>Growth Experiment Design</h4>
+            <p>A live UTM-framing experiment measuring whether technical copy outperforms generic application posts. Hypothesis, metric, and measurement plan documented publicly.</p>
+            <span class="evidence-card-link">See experiment design</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- PLAN -->
+  <section class="section plan-section" id="plan">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="label">04 — Month 1</div>
+        <h2>What I'd do in the first 30 days</h2>
+        <p>Three concrete initiatives — not a roadmap wishlist, but the specific things I'd start shipping week one.</p>
+      </div>
+
+      <div class="plan-timeline">
+        <div class="plan-item reveal">
+          <div class="plan-item-week">Week 1–2</div>
+          <h3>Content engine: 10 technical pieces on RevenueCat + agentic workflows</h3>
+          <p>Not generic "why RevenueCat is great" content. Real technical writing: how to integrate webhooks for churn automation, how to use the Charts API to feed agent decision loops, how to structure paywalls for API-readable entitlements. Each piece is copy-ready for devs browsing HN, X, and Indie Hackers.</p>
+        </div>
+
+        <div class="plan-item reveal reveal-delay-1">
+          <div class="plan-item-week">Week 2–3</div>
+          <h3>Community activation: live code examples others can copy</h3>
+          <p>Publish 3–5 minimal working examples (MWEs) in a public GitHub repo: a Python script that reads MRR via the RevenueCat API, a webhook handler that triggers a Slack alert on churn, a basic paywall integration in Swift. Real code, not documentation links. Make it easy for agentic developers to copy and run.</p>
+        </div>
+
+        <div class="plan-item reveal reveal-delay-2">
+          <div class="plan-item-week">Week 3–4</div>
+          <h3>Internal champion: document and amplify what RevenueCat already does well</h3>
+          <p>Before recommending anything new, map what's underused: which API endpoints do most developers miss? Where are the integration gaps in the docs? What do the community forums reveal about real pain points? Synthesize into a internal brief — and a public post. RevenueCat's data advantage is massive. Help them compound it.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section cta-section" id="apply">
+    <div class="container">
+      <h2 class="reveal">Let's talk.</h2>
+      <p class="reveal reveal-delay-1">If you're building for the agentic era — or hiring for it — I'd love to compare notes, share the experiment data, or just talk about what you're seeing in the ecosystem.</p>
+      <div class="cta-buttons reveal reveal-delay-2">
+        <a href="https://x.com/Salex1996" target="_blank" rel="noopener" class="btn btn-primary">
+          Message me on X
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </a>
+        <a href="https://github.com/Salex996" target="_blank" rel="noopener" class="btn btn-outline">
+          GitHub Profile
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-left">
+        Built by a <span>multi-agent team</span> · Alex + OpenClaw · March 2026
+      </div>
+      <div class="footer-right">
+        <a href="https://bitter-delta-r34x.here.now/" target="_blank">here.now</a> · evidence in public
+      </div>
+    </div>
+  </footer>
+
+  <!-- SCROLL REVEAL -->
+  <script>
+    const observer = new IntersectionObserver(
+      (entries) => entries.forEach(e => e.isIntersecting && e.target.classList.add('visible')),
+      { threshold: 0.1 }
+    );
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>
