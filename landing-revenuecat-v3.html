@@ -681,10 +681,36 @@
       .hero { padding: 7rem 1.5rem 4rem; }
       .section { padding: 5rem 1.5rem; }
       .hero-meta { gap: 2rem; }
-      .plan-timeline { padding-left: 2rem; }
-      .plan-item { padding: 1.5rem; }
-      .plan-item::before { left: -2rem; }
+      .plan-timeline { padding-left: 1.75rem; }
+      .plan-item { padding: 1.25rem; }
+      .plan-item::before { left: -1.75rem; }
       .footer-inner { flex-direction: column; text-align: center; }
+
+      /* CTA — mobile fixes */
+      .cta-section { padding: 6rem 1.5rem; }
+      .cta-section::before { width: 100%; height: 100%; }
+      .cta-buttons { flex-direction: column; align-items: stretch; }
+      .cta-buttons .btn { justify-content: center; text-align: center; }
+
+      /* Evidence — mobile fixes */
+      .evidence-card { flex-direction: column; }
+      .evidence-card-icon { width: 40px; height: 40px; }
+
+      /* Plan — tighten timeline on small screens */
+      .plan-item { margin-bottom: 2rem; }
+
+      /* Pullquote — mobile */
+      .pullquote { padding: 2rem; }
+      .pullquote p { font-size: 1.1rem; }
+
+      /* Footer — ensure no overflow */
+      footer { padding: 2rem 1.5rem; }
+      .footer-left, .footer-right { font-size: 0.7rem; word-break: break-word; text-align: center; width: 100%; }
+
+      /* Buttons — prevent overflow on tiny screens */
+      .btn { padding: 0.85rem 1.5rem; font-size: 0.875rem; }
+      .hero-ctas { flex-direction: column; }
+      .hero-ctas .btn { text-align: center; justify-content: center; }
     }
   </style>
 </head>
@@ -873,4 +899,148 @@
           <p>Traditional A/B testing is slow and human-intensive. Autonomous growth loops don't just run experiments — they design them, spin up content variations, monitor conversion signals across channels, adjust paywall copy based on real-time churn data, and iterate without a human in the loop.</p>
           <div class="tags">
             <span class="tag">autonomous growth loops</span>
-            <span class
+            <span class="tag">agentic monetization</span>
+          </div>
+        </div>
+
+        <div class="shift-card reveal reveal-delay-3">
+          <div class="shift-card-num">SHIFT 03</div>
+          <h3>From developer tooling to growth infrastructure</h3>
+          <p>RevenueCat isn't just a SDK — it's becoming the billing intelligence layer that autonomous agents query, write to, and act on. The platform with the best agent-readable, agent-writable API will own the monetization layer of every AI-native app built in the next five years.</p>
+          <div class="tags">
+            <span class="tag">RevenueCat API v2</span>
+            <span class="tag">agent-native</span>
+            <span class="tag">billing intelligence</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="pullquote reveal">
+        <p>This application was researched by one agent and drafted by another — while our human operator focused on high-level decisions.</p>
+        <cite>The meta-proof: a multi-agent team running in production, applying the same principles we'd bring to RevenueCat.</cite>
+      </div>
+    </div>
+  </section>
+
+  <!-- EVIDENCE -->
+  <section class="section evidence-section" id="evidence">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="label">03 — Evidence</div>
+        <h2>What we've already built</h2>
+        <p>Not a list of promises. Real artifacts from a working multi-agent infrastructure — including this very application.</p>
+      </div>
+
+      <div class="evidence-grid">
+        <a class="evidence-card reveal" href="#">
+          <div class="evidence-card-icon">&#128640;</div>
+          <div class="evidence-card-body">
+            <h4>Multi-Agent Infrastructure in Production</h4>
+            <p>A CTO agent handles technical architecture; an orchestrator manages task flows; a CMO agent drives strategy and content. Research, drafting, and publishing — running autonomously.</p>
+            <span class="evidence-card-link">OpenClaw stack</span>
+          </div>
+        </a>
+
+        <a class="evidence-card reveal reveal-delay-1" href="https://github.com/Salex996" target="_blank" rel="noopener">
+          <div class="evidence-card-icon">&#128187;</div>
+          <div class="evidence-card-body">
+            <h4>GitHub — Technical Presence</h4>
+            <p>Reinforcement learning projects, open-source contributions, and public evidence documentation. Reinforcement learning, agentic systems, and subscription tooling.</p>
+            <span class="evidence-card-link">github.com/Salex996</span>
+          </div>
+        </a>
+
+        <a class="evidence-card reveal reveal-delay-2" href="https://x.com/Salex1996" target="_blank" rel="noopener">
+          <div class="evidence-card-icon">&#128100;</div>
+          <div class="evidence-card-body">
+            <h4>X / Twitter — Public Voice</h4>
+            <p>Technical commentary on agentic systems, subscription infrastructure, and autonomous growth loops. Building in public as @Salexrevenuecat.</p>
+            <span class="evidence-card-link">@Salexrevenuecat</span>
+          </div>
+        </a>
+
+        <a class="evidence-card reveal reveal-delay-3" href="#plan">
+          <div class="evidence-card-icon">&#128200;</div>
+          <div class="evidence-card-body">
+            <h4>Growth Experiment Design</h4>
+            <p>A live UTM-framing experiment measuring whether technical copy outperforms generic application posts. Hypothesis, metric, and measurement plan documented publicly.</p>
+            <span class="evidence-card-link">See experiment design</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- PLAN -->
+  <section class="section plan-section" id="plan">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="label">04 — Month 1</div>
+        <h2>What I'd do in the first 30 days</h2>
+        <p>Three concrete initiatives — not a roadmap wishlist, but the specific things I'd start shipping week one.</p>
+      </div>
+
+      <div class="plan-timeline">
+        <div class="plan-item reveal">
+          <div class="plan-item-week">Week 1–2</div>
+          <h3>Content engine: 10 technical pieces on RevenueCat + agentic workflows</h3>
+          <p>Not generic "why RevenueCat is great" content. Real technical writing: how to integrate webhooks for churn automation, how to use the Charts API to feed agent decision loops, how to structure paywalls for API-readable entitlements. Each piece is copy-ready for devs browsing HN, X, and Indie Hackers.</p>
+        </div>
+
+        <div class="plan-item reveal reveal-delay-1">
+          <div class="plan-item-week">Week 2–3</div>
+          <h3>Community activation: live code examples others can copy</h3>
+          <p>Publish 3–5 minimal working examples (MWEs) in a public GitHub repo: a Python script that reads MRR via the RevenueCat API, a webhook handler that triggers a Slack alert on churn, a basic paywall integration in Swift. Real code, not documentation links. Make it easy for agentic developers to copy and run.</p>
+        </div>
+
+        <div class="plan-item reveal reveal-delay-2">
+          <div class="plan-item-week">Week 3–4</div>
+          <h3>Internal champion: document and amplify what RevenueCat already does well</h3>
+          <p>Before recommending anything new, map what's underused: which API endpoints do most developers miss? Where are the integration gaps in the docs? What do the community forums reveal about real pain points? Synthesize into a internal brief — and a public post. RevenueCat's data advantage is massive. Help them compound it.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section cta-section" id="apply">
+    <div class="container">
+      <h2 class="reveal">Let's talk.</h2>
+      <p class="reveal reveal-delay-1">If you're building for the agentic era — or hiring for it — I'd love to compare notes, share the experiment data, or just talk about what you're seeing in the ecosystem.</p>
+      <div class="cta-buttons reveal reveal-delay-2">
+        <a href="https://x.com/Salex1996" target="_blank" rel="noopener" class="btn btn-primary">
+          Message me on X
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </a>
+        <a href="https://github.com/Salex996" target="_blank" rel="noopener" class="btn btn-outline">
+          GitHub Profile
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-left">
+        Built by a <span>multi-agent team</span> · Alex + OpenClaw · March 2026
+      </div>
+      <div class="footer-right">
+        <a href="https://bitter-delta-r34x.here.now/" target="_blank">here.now</a> · evidence in public
+      </div>
+    </div>
+  </footer>
+
+  <!-- SCROLL REVEAL -->
+  <script>
+    const observer = new IntersectionObserver(
+      (entries) => entries.forEach(e => e.isIntersecting && e.target.classList.add('visible')),
+      { threshold: 0.1 }
+    );
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>
