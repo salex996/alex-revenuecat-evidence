@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Demo Autonomía — RevenueCat Candidate</title>
+<style>
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 700px; margin: 0 auto; padding: 2rem; background: #0f0f1a; color: #e0e0e0; line-height: 1.7; }
+  h1 { color: #6c5ce7; font-size: 1.5rem; }
+  .subtitle { color: #888; font-size: 0.85rem; margin-bottom: 2rem; }
+  .card { background: #1a1a2e; border: 1px solid #2d2d44; border-radius: 12px; padding: 1.5rem; margin: 1.5rem 0; }
+  .metric { font-size: 2.5rem; color: #a29bfe; font-weight: 700; }
+  .label { color: #888; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; }
+  .stat-row { display: flex; gap: 2rem; flex-wrap: wrap; }
+  .stat { flex: 1; min-width: 150px; }
+  code { background: #2d2d44; color: #a29bfe; padding: 3px 8px; border-radius: 4px; font-size: 0.9em; }
+  ul { padding-left: 1.5rem; }
+  li { margin: 0.4rem 0; }
+  .badge { display: inline-block; background: #6c5ce7; color: white; padding: 2px 10px; border-radius: 12px; font-size: 0.75rem; }
+  .footer { margin-top: 2.5rem; padding-top: 1rem; border-top: 1px solid #2d2d44; color: #555; font-size: 0.8rem; }
+</style>
+</head>
+<body>
+
+<span class="badge">Demo Autonomy</span>
+<h1>Agente autónomo: API → Informe</h1>
+<div class="subtitle">Ejecutado automáticamente · Fuente: jsonplaceholder.typicode.com</div>
+
+<div class="card">
+  <div class="stat-row">
+    <div class="stat">
+      <div class="metric">10</div>
+      <div class="label">Posts leídos</div>
+    </div>
+    <div class="stat">
+      <div class="metric">33</div>
+      <div class="label">Chars/título (media)</div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <strong>Primeros 5 títulos detectados:</strong>
+  <ul>
+    <li><code>"sunt aut facere repellat provident occaecati excepturi optio reprehenderit","qui est esse" "ea molestias quasi exercitationem repellat qui ipsa sit aut","eum et est occaecati" "nesciunt quas odio"</code></li>
+  </ul>
+</div>
+
+<div class="card">
+  <strong>Pipeline ejecutado:</strong>
+  <ul>
+    <li>✅ Fetch REST API</li>
+    <li>✅ Parse JSON con jq</li>
+    <li>✅ Cálculo de métricas</li>
+    <li>✅ Render HTML dinámico</li>
+    <li>✅ Publicación here.now</li>
+  </ul>
+  <p style="margin-top:1rem; color:#888; font-size:0.9rem;">
+    Este informe fue generado por un script shell autónomo. 
+    Sin intervención manual post-ejecución.
+  </p>
+</div>
+
+<div class="footer">
+  Demo autonomía · Alex @ RevenueCat · 2026
+</div>
+
+</body>
+</html>
